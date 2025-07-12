@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VoiceCup Designer | AI Cup Design</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;500;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --main: #8C6239;
+      --main-dark: #5C4032;
+      --accent: #DF7861;
+      --accent-hover: #b45a43;
+      --text: #3E2723;
+      --bg: #FFF8F1;
+      --white: #fff;
+      --gray: #e0dbd3;
+      --shadow: 0 4px 24px 0 rgba(108, 84, 45, 0.11);
+      --background-color: #FFF8F1;
+      --heading-color: #8C6239;
+      --section-bg: #f6efe8;
+      --input-focus: #DF7861;
+    }
+    html, body {
+      font-family: 'Montserrat', Arial, sans-serif;
+      background: var(--background-color);
+      margin: 0;
+      padding: 0;
+      color: var(--text);
+      min-height: 100vh;
+    }
+    .navbar {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 7vw 16px 7vw;
+      border-bottom: 2px solid var(--gray);
+      background: var(--bg);
+      position: sticky; top: 0; z-index: 50;
+    }
+    .logo-area {
+      display: flex;
+      align-items: center;
+      font-size: 2em;
+      font-weight: 900;
+      color: var(--main-dark);
+      letter-spacing: 2px;
+    }
+    .logo-img {
+      height: 44px;
+      width: auto;
+      margin-right: 14px;
+      display: block;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px #0001;
+      background: #fff;
+      border: 1.5px solid #e0dbd3;
+    }
+    .nav-links {
+      display: flex;
+      gap: 26px;
+      font-weight: 500;
+    }
+    .nav-links a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 1em;
+      opacity: 0.85;
+      padding: 0 4px;
+      transition: color .19s;
+    }
+    .nav-links a.active,
+    .nav-links a:hover {
+      color: var(--accent);
+      opacity: 1;
+    }
+    .nav-user {
+      font-size: 1.8em;
+      color: var(--main-dark);
+      margin-left: 12px;
+      cursor: pointer;
+    }
+    .section {display: none;}
+    .section.active {display: block;animation: fadeIn .7s;}
+    @keyframes fadeIn {from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:none;}}
+    #landing {max-width: 900px; margin: 0 auto; padding: 0 3vw;}
+    .landing-hero {
+      display: flex; flex-wrap: wrap; gap: 45px; align-items: center;
+      margin-top: 46px; min-height: 300px;
+    }
+    .landing-left {flex: 1 1 320px;}
+    .landing-title {
+      font-size: 2.25em;
+      font-weight: 700;
+      margin-bottom: 18px;
+      color: var(--heading-color);
+      line-height: 1.22;
+      letter-spacing: .8px;
+    }
+    .landing-desc {
+      font-size: 1.15em;
+      color: #5c4032;
+      margin-bottom: 22px;
+    }
+    .cta-btn {
+      background: linear-gradient(90deg, var(--main), var(--accent));
+      color: var(--white);
+      border: none;
+      border-radius: 999px;
+      font-size: 1.15em;
+      font-weight: 700;
+      padding: 16px 48px;
+      margin-top: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px #8c62391a;
+      letter-spacing: .7px;
+      transition: background .22s, transform .17s;
+    }
+    .cta-btn:hover {
+      background: linear-gradient(90deg, var(--accent), var(--main-dark));
+      color: #fff;
+      transform: translateY(-2px) scale(1.06);
+    }
+    .landing-right {
+      flex: 1 1 320px;
+      text-align: center;
+    }
+    .cup-3d-anim {
+      width: 190px;
+      border-radius: 24px;
+      box-shadow: 0 4px 28px #8c623924;
+      margin: 0 auto;
+      background: #fff;
+      border: 2.5px solid #d0beac;
+    }
+    .main-buttons {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: 16px; margin: 38px auto 18px; max-width: 800px;
+    }
+    .button-tile {
+      background: linear-gradient(90deg, #8C6239, #DF7861);
+      color: white;
+      padding: 23px 0 14px 0;
+      border-radius: 12px;
+      text-align: center;
+      width: 150px;
+      font-size: 1.09em;
+      text-decoration: none;
+      font-weight: 600;
+      box-shadow: 0 2px 11px #8c623910;
+      transition: background .18s, transform .14s;
+      cursor: pointer;
+    }
+    .button-tile:hover {background: linear-gradient(90deg, #DF7861, #5C4032);transform:scale(1.045);}
+    .designer-shapes img:hover {box-shadow: 0 2px 10px #DF786130;}
+    .back-btn {
+      position: fixed;
+      left: 18px;
+      top: 85px;
+      background: #fff;
+      border: 2px solid var(--accent);
+      color: var(--main);
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      font-size: 1.8em;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      box-shadow: 0 2px 12px #8c623914;
+      cursor: pointer;
+      transition: background 0.13s, color 0.13s;
+    }
+    .back-btn:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+    #epay, #idea, #viewer, #address, #done {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 50px 3vw;
+      text-align: center;
+      background: var(--section-bg);
+      border-radius: 16px;
+      box-shadow: 0 3px 24px #8c623910;
+    }
+    /* Viewer 3D chỉnh đều ảnh */
+    #viewer { max-width: 900px; }
+    .viewer-images-row {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      gap: 36px;
+      margin: 0 auto 18px;
+      background: #f3f1ed;
+      border-radius: 26px;
+      box-shadow: 0 2px 18px #b0824422;
+      padding: 30px 18px;
+    }
+    .viewer-images-row img {
+      width: 240px;
+      max-width: 29vw;
+      border-radius: 22px;
+      background: #fff;
+      object-fit: contain;
+      box-shadow: 0 4px 24px #0001;
+      transition: transform 0.16s;
+      border: 1.5px solid #e0dbd3;
+    }
+    .viewer-images-row img:hover {
+      transform: scale(1.045);
+      border-color: var(--accent);
+    }
+    @media (max-width: 900px) {
+      .viewer-images-row {gap: 20px;}
+      .viewer-images-row img {width: 30vw;}
+    }
+    @media (max-width: 600px) {
+      .navbar {padding:14px 2vw;}
+      #landing {padding: 0 1vw;}
+      .button-tile {width:99vw;}
+      .cup-3d-anim {width:140px;}
+      .back-btn { left: 5px; top: 55px; width: 39px; height: 39px; font-size: 1.32em;}
+      #epay, #idea, #viewer, #address, #done {padding: 30px 5vw;}
+      .step {min-width: 220px;}
+      .viewer-images-row {flex-direction: column; gap: 18px; align-items: center;}
+      .viewer-images-row img {width: 92vw;}
+      .logo-img {height: 31px;}
+    }
+    #epay h2, #idea h2, #viewer h2, #address h2, #done h2,
+    .landing-title, .step h3, .intro-section h2, .features-section h2,
+    .testimonials-section h2, .signup-section h2 {
+      color: var(--heading-color);
+      font-weight: 700;
+    }
+    #addrForm input, #addrForm select {
+      display: block;
+      margin: 0 auto 18px;
+      background: #fff;
+      border: 1.5px solid #e0dbd3;
+      font-size: 1em;
+      padding: 13px 16px;
+      border-radius: 8px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    #addrForm input:focus, #addrForm select:focus {
+      border-color: var(--input-focus);
+      box-shadow: 0 0 0 2px #DF786140;
+      outline: none;
+    }
+    .footer {
+      text-align: center;
+      padding: 22px;
+      border-top: none;
+      margin-top: 45px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 1.09em;
+      border-radius: 0 0 12px 12px;
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <div class="navbar">
+    <div class="logo-area">
+      <img class="logo-img" src="https://i.ibb.co/ty4L6jV/logo.jpg" alt="VoiceCup Logo">
+      <span>VoiceCup Designer</span>
+    </div>
+    <div class="nav-links">
+      <a href="#" class="active">Home</a>
+      <a href="#">Generate</a>
+      <a href="#">Preview</a>
+      <a href="#">Export</a>
+    </div>
+    <div class="nav-user">👤</div>
+  </div>
+  <!-- BACK BUTTON -->
+  <div id="backBtn" class="back-btn" style="display:none;" onclick="goBackStep()">
+    ←
+  </div>
+  <!-- LANDING PAGE -->
+  <div id="landing" class="section active">
+    <div class="landing-hero">
+      <div class="landing-left">
+        <div class="landing-title">VoiceCup Designer</div>
+        <div class="landing-desc">Thiết kế ly phong cách cá nhân bằng AI & giọng nói</div>
+        <div class="landing-desc">
+          Chỉ cần nói, AI sẽ tạo ra chiếc ly của bạn!<br>
+          Bạn chỉ cần nói ý tưởng, VoiceCup Designer sẽ vẽ nên phong cách của riêng bạn – dễ như trò chuyện!
+        </div>
+        <button class="cta-btn" onclick="gotoStep(2)">
+          Bắt đầu tùy chỉnh ngay &gt;&gt;
+        </button>
+      </div>
+      <div class="landing-right">
+        <img class="cup-3d-anim" src="https://i.ibb.co/KcXnsVMg/giao-di-n-homejpg.jpg" alt="Sản phẩm ly/bình AI"/>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <h3>1. Nói ý tưởng</h3>
+        <p>Bạn nói mô tả thiết kế (màu sắc, hoạ tiết, phong cách...)</p>
+      </div>
+      <div class="step">
+        <h3>2. AI thiết kế</h3>
+        <p>AI dựng mẫu ly 3D chỉ sau vài giây. Bạn xem trước, chỉnh sửa thoải mái.</p>
+      </div>
+      <div class="step">
+        <h3>3. Đặt in & nhận hàng</h3>
+        <p>Chốt thiết kế, chọn in ấn và chờ nhận chiếc ly mang dấu ấn cá nhân!</p>
+      </div>
+    </div>
+    <div class="main-buttons">
+      <div class="button-tile">Hỗ trợ</div>
+      <div class="button-tile" onclick="gotoStep(2)">Tùy chỉnh</div>
+      <div class="button-tile">Sản xuất</div>
+      <div class="button-tile">Thư viện mẫu</div>
+      <div class="button-tile">Premium</div>
+      <div class="button-tile">Hướng dẫn</div>
+      <div class="button-tile">Về chúng tôi</div>
+    </div>
+    <div class="intro-section">
+      <h2>Giới thiệu về VoiceCup Designer</h2>
+      <p>VoiceCup Designer là ứng dụng AI đầu tiên tại Việt Nam giúp bạn thiết kế ly cá nhân hóa bằng chính giọng nói.<br>
+      Chỉ cần nói: “Thiết kế ly màu nâu, có hình núi, phong cách tối giản” – AI sẽ tạo ngay mẫu ly 3D độc quyền cho bạn!</p>
+    </div>
+    <div class="features-section">
+      <h2>Tính năng nổi bật</h2>
+      <ul>
+        <li>Nhận diện giọng nói tiếng Việt/Anh, hỗ trợ đa ngôn ngữ.</li>
+        <li>Preview 3D chân thực, chỉnh sửa trực tiếp theo ý muốn.</li>
+        <li>Kết nối nhà sản xuất, in ấn chất lượng, giao tận nơi.</li>
+        <li>Kho thư viện mẫu thiết kế trendy, cập nhật liên tục.</li>
+        <li>Gói Premium: thiết kế độc quyền, hỗ trợ cá nhân 1-1, quà tặng.</li>
+      </ul>
+    </div>
+    <div class="testimonials-section">
+      <h2>Khách hàng nói gì về VoiceCup Designer?</h2>
+      <div class="testimonials">
+        <div class="testimonial">
+          <p>“Chỉ cần nói 1 câu, tôi đã có chiếc ly mang đúng style của mình. Rất hài lòng về tốc độ và trải nghiệm!”</p>
+          <p>– Hoàng Minh, Sinh viên</p>
+        </div>
+        <div class="testimonial">
+          <p>“Ý tưởng thiết kế cực kỳ mới lạ, thao tác dễ, thành phẩm đẹp như mong đợi. Sẽ giới thiệu cho bạn bè!”</p>
+          <p>– Mỹ Linh, Freelancer</p>
+        </div>
+      </div>
+    </div>
+    <div class="signup-section">
+      <h2>Đăng ký trải nghiệm thử miễn phí!</h2>
+      <p>Hãy là người đầu tiên khám phá VoiceCup Designer, nhận ưu đãi đặc biệt cho tài khoản đầu tiên.</p>
+      <button class="cta-btn">Đăng ký ngay</button>
+    </div>
+    <div class="footer">
+      <p>© 2025 VoiceCup Designer. All rights reserved. | Hotline: 0989.888.888</p>
+    </div>
+  </div>
+  <!-- THANH TOÁN EPAY 30% -->
+  <div id="epay" class="section">
+    <img class="cup-3d-anim" src="https://i.ibb.co/fY9PhhZg/QRCODE.jpg" alt="QR Momo chuyển khoản" style="width:170px;"/>
+    <h2>Thanh toán đặt cọc 30%<br>qua Momo</h2>
+    <div style="color:#8C6239;font-size:1.12em;margin-bottom:22px;">
+      Vui lòng quét mã QR này bằng app Momo để chuyển khoản đặt cọc.<br>
+      <span style="font-size:0.98em;color:#222;">Nguyễn Đức Hoàn... – Đuôi 172</span>
+    </div>
+    <button class="cta-btn" onclick="gotoStep(3)">Tôi đã thanh toán xong</button>
+  </div>
+  <!-- NHẬP TEXT Ý TƯỞNG AI -->
+  <div id="idea" class="section">
+    <div style="display: flex; max-width: 900px; margin: 0 auto; gap: 20px; padding: 20px; background: #f6efe8; border-radius: 20px;">
+      <div class="left-sidebar" style="flex: 1; max-width: 250px;">
+        <details>
+          <summary>Size Adjustments</summary>
+        </details>
+        <details>
+          <summary>Materials and color</summary>
+        </details>
+        <details open>
+          <summary>Customization</summary>
+          <button>+ Add Image &gt;</button>
+          <button>+ Add Text &gt;</button>
+        </details>
+        <details open>
+          <summary>Blending Option</summary>
+          <div>Highlight <input type="range"></div>
+          <div>Shadow <input type="range"></div>
+          <div>Glossiness Options <input type="range"></div>
+        </details>
+        <details open>
+          <summary>Shape</summary>
+          <div style="display: flex; gap: 10px; justify-content: space-around;">
+            <img src="https://i.ibb.co/kgbNqPxt/b-nh-tr-ng.jpg" alt="Shapes" style="width: 100%; height: auto; border: 1px solid #ccc;">
+          </div>
+        </details>
+      </div>
+      <div class="central" style="flex: 2; text-align: center;">
+        <img src="https://i.ibb.co/kgbNqPxt/b-nh-tr-ng.jpg" alt="Main model" style="width: 80%; height: auto; border-radius: 20px; background: #fff; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+      </div>
+      <div class="right-panel" style="flex: 1; max-width: 150px; display: flex; flex-direction: column; align-items: center; gap: 10px;">
+        <button style="background: #DF7861; color: #fff; border: none; border-radius: 999px; padding: 10px 20px; cursor: pointer;">3D View</button>
+        <img src="https://i.ibb.co/kgbNqPxt/b-nh-tr-ng.jpg" alt="Thumbnail 1" style="width: 80px; border-radius: 999px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        <img src="https://i.ibb.co/kgbNqPxt/b-nh-tr-ng.jpg" alt="Thumbnail 2" style="width: 80px; border-radius: 999px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        <img src="https://i.ibb.co/kgbNqPxt/b-nh-tr-ng.jpg" alt="Thumbnail 3" style="width: 80px; border-radius: 999px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+      </div>
+    </div>
+    <div style="max-width:400px;margin:0 auto;">
+      <input id="userIdea" placeholder="Write your idea..." style="width:100%;padding:14px;margin:24px 0;font-size:1em;border-radius:8px;border:1.2px solid #e6e6e6;">
+    </div>
+    <div style="text-align: center; margin-top: 20px;">
+      <button class="cta-btn" onclick="gotoStep(4)">Tạo thiết kế AI</button>
+    </div>
+  </div>
+  <!-- 3D VIRTUAL VIEWER -->
+  <div id="viewer" class="section">
+    <h2>Xem lại 3D thiết kế cuối cùng</h2>
+    <div class="viewer-images-row">
+      <img src="https://i.ibb.co/LzLPqWrd/10.jpg" alt="3D View 1"/>
+      <img src="https://i.ibb.co/hxFm5FW1/11.jpg" alt="3D View 2"/>
+      <img src="https://i.ibb.co/xqxVqhVm/12.jpg" alt="3D View 3"/>
+    </div>
+    <div style="color:#8C6239;margin-top:8px;margin-bottom:18px;">
+      (Mô phỏng: Bạn có thể xem mọi góc thiết kế với hình ảnh 3D nếu tích hợp)
+    </div>
+    <button class="cta-btn" onclick="gotoStep(5)">Tiếp tục đặt hàng</button>
+  </div>
+  <!-- ĐỊA CHỈ & THANH TOÁN -->
+  <div id="address" class="section">
+    <h2>Điền địa chỉ nhận hàng</h2>
+    <form id="addrForm" onsubmit="return submitOrder();">
+      <input required placeholder="Họ tên người nhận" style="width:100%;padding:11px 14px;font-size:1em;border-radius:8px;border:1.2px solid #e6e6e6;margin-bottom:18px;" />
+      <input required placeholder="Số điện thoại" style="width:100%;padding:11px 14px;font-size:1em;border-radius:10px;border:1.2px solid #e6e6e6;margin-bottom:18px;" />
+      <input required placeholder="Địa chỉ nhận hàng (số nhà, đường, phường/xã, quận/huyện, tỉnh/thành)" style="width:100%;padding:11px 14px;font-size:1em;border-radius:10px;border:1.2px solid #e6e6e6;margin-bottom:18px;" />
+      <select required style="width:100%;padding:11px 14px;font-size:1em;border-radius:10px;border:1.2px solid #e6e6e6;margin-bottom:18px;">
+        <option value="">Chọn phương thức thanh toán còn lại</option>
+        <option>Epay 70%</option>
+        <option>Thanh toán COD khi nhận hàng</option>
+      </select>
+      <button class="cta-btn" type="submit">Hoàn tất & Đặt in</button>
+    </form>
+  </div>
+  <!-- ĐẶT HÀNG THÀNH CÔNG -->
+  <div id="done" class="section" style="text-align:center;padding:42px 0;">
+    <h2>🎉 Đặt hàng thành công!</h2>
+    <div style="color:#8C6239;font-size:1.1em;margin:20px 0;">VoiceCup sẽ xác nhận & tiến hành sản xuất theo thiết kế của bạn.</div>
+    <div style="font-size:0.97em;">Mã đơn hàng: <b>#MDHN<span id="orderId"></span></b></div>
+  </div>
+  <script>
+    // Quản lý bước hiện tại
+    let _step = 1;
+    function gotoStep(n) {
+      let ids = ["landing", "epay", "idea", "viewer", "address", "done"];
+      ids.forEach((id, i) => {
+        document.getElementById(id).classList.toggle("active", i===n-1);
+      });
+      _step = n;
+      document.getElementById("backBtn").style.display = (n === 1) ? "none" : "flex";
+    }
+    function goBackStep() {
+      if (_step > 1) gotoStep(_step - 1);
+    }
+    function submitOrder() {
+      gotoStep(6);
+      document.getElementById('orderId').innerText = Math.floor(1000 + Math.random() * 8999);
+      window.scrollTo(0,0);
+      return false;
+    }
+  </script>
+</body>
+</html>
